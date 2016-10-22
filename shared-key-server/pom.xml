@@ -11,6 +11,40 @@
 
     <artifactId>shared-key-server</artifactId>
 
+    <properties>
+        <docker.image.prefix>capslock1874</docker.image.prefix>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.2.3</version>
+                <executions>
+                    <execution>
+                      <id>build-image</id>
+                      <phase>package</phase>
+                      <goals>
+                        <goal>build</goal>
+                        <goal>push</goal>
+                      </goals>
+                      <configuration>
+                        <imageName>139.162.57.135:5000/${docker.image.prefix}/${project.artifactId}</imageName>
+                        <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                        <resources>
+                            <resource>
+                                <directory>${project.build.directory}</directory>
+                                <include>${project.build.finalName}.jar</include>
+                            </resource>
+                        </resources>
+                       </configuration>
+                    </execution>
+                </executions>
+                
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
